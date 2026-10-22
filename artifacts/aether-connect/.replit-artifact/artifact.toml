@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Aether — Private Global Connectivity"
+description = "Privacy-first eSIM storefront and telecom operations platform with persistent guest orders, sandbox-separated catalog, secure operations and provider integration readiness."
+version = "1.0.0"
+id = "artifacts/aether-connect"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24455
+
+[services.development]
+run = "pnpm --filter @workspace/aether-connect run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/aether-connect", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/aether-connect/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24455"
+BASE_PATH = "/"
